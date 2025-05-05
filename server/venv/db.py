@@ -3,7 +3,7 @@ import psycopg2
 def init_db():
     conn = psycopg2.connect(
         dbname='dailyz',
-        user='dailyz__user',
+        user='dailyz_user',
         password='dailyz_pass',
         host='localhost'
     )
