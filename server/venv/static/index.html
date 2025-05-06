@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список задач</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #2d2e38;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            max-width: 400px;
+            width: 100%;
+            padding: 30px;
+            margin-top: 60px;
+        }
+        h1 {
+            color: #5c57e7;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #task-input {
+            width: 70%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            margin-right: 8px;
+            background: #f1f1f6;
+        }
+        #add-task {
+            padding: 10px 18px;
+            border: none;
+            background: #5c57e7;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        #add-task:hover {
+            background: #3b36b6;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 24px;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f7f7fb;
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: box-shadow 0.2s;
+        }
+        .task-item:hover {
+            box-shadow: 0 2px 8px rgba(90,93,238,0.085);
+        }
+        .delete-btn {
+            background: #ff4d4d;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            margin-left: 12px;
+            transition: background 0.16s;
+        }
+        .delete-btn:hover {
+            background: #c73737;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Мой To-do List</h1>
+        <div>
+            <input type="text" id="task-input" placeholder="Новая задача...">
+            <button id="add-task">Добавить</button>
+        </div>
+        <ul id="task-list">
+            <!-- Здесь будут задачи -->
+        </ul>
+    </div>
+    <script>
+        // Локальный массив задач
+        let tasks = [];
+
+        function updateTaskList() {
+            const ul = document.getElementById('task-list');
+            ul.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+
+                const span = document.createElement('span');
+                span.textContent = task;
+
+                const btn = document.createElement('button');
+                btn.textContent = 'Удалить';
+                btn.className = 'delete-btn';
+                btn.onclick = () => {
+                    tasks.splice(index, 1);
+                    updateTaskList();
+                };
+
+                li.appendChild(span);
+                li.appendChild(btn);
+                ul.appendChild(li);
+            });
+        }
+
+        document.getElementById('add-task').onclick = () => {
+            const input = document.getElementById('task-input');
+            const value = input.value.trim();
+            if (value !== '') {
+                tasks.push(value);
+                input.value = '';
+                updateTaskList();
+            }
+        };
+
+        // Enter = добавить задачу
+        document.getElementById('task-input').addEventListener('keyup', e => {
+            if (e.key === 'Enter') {
+                document.getElementById('add-task').click();
+            }
+        });
+
+        // Можно загрузить задачи с бэка через fetch, если API реализован
+    </script>
+</body>
+</html>
